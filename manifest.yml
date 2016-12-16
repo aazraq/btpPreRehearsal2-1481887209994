@@ -1,0 +1,12 @@
+applications:
+- path: .
+  memory: 256M
+  instances: 1
+  domain: mybluemix.net
+  name: btpPreRehearsal2
+  host: btpPreRehearsal2
+  disk_quota: 1024M
+  env:
+    PCV_CLIENT_ID: 7b0c52d0-b8fe-4878-9da9-367fa9883ee7
+    AVG_BERTHING_TIME: '2'
+    PCV_ENDPOINT: https://api.us.apiconnect.ibmcloud.com/aazraqegibmcom-svp-dev/chain2-catalog/pcv-service/queryEvent
