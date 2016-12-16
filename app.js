@@ -29,11 +29,11 @@ var svpClient = require('./modules/svpClient');
 var etbCalculator = require('./modules/etbCalculator');
 
 //The client ID retrieved from API Connect 
-var apiConnectClientId = appEnv.PCV_CLIENT_ID;
-var pcvQueryEventEndpoint = appEnv.PCV_ENDPOINT;
+var apiConnectClientId = process.env.PCV_CLIENT_ID;
+var pcvQueryEventEndpoint = process.env.PCV_ENDPOINT;
 
 //A constant specifying the average time from Antwerp pilot station to terminal A
-var AVERAGE_BERTHING_TIME = appEnv.AVG_BERTHING_TIME;
+var AVERAGE_BERTHING_TIME = process.env.AVG_BERTHING_TIME;
 
 app.get('/calculateETB', function(req, res) {
 	var objectId = req.query.objectId;
