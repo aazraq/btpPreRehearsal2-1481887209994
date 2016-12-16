@@ -35,6 +35,13 @@ var pcvQueryEventEndpoint = process.env.PCV_ENDPOINT;
 //A constant specifying the average time from Antwerp pilot station to terminal A
 var AVERAGE_BERTHING_TIME = process.env.AVG_BERTHING_TIME;
 
+// Call the module required for the calculation of ETB taking into consideration the weather condition
+var etbCalculatorWeather = require('./modules/etbCalculatorWeather');
+//Weather Company Endpoint
+var vcap = JSON.parse(process.env.VCAP_SERVICES);
+var weatherCompanyEndpoint = vcap.weatherinsights[0].credentials.url;
+
+
 app.get('/calculateETB', function(req, res) {
 	var objectId = req.query.objectId;
 	var isWeather = req.query.isWeather;
@@ -47,7 +54,9 @@ app.get('/calculateETB', function(req, res) {
 			res.status(500).send();
 		} else {
 			if (isWeather==='true') { //Calculate ETB taking weather condition into consideration
-				res.send('Weather is still not implemented');
+				etbCalculatorWeather.calculateETBWithWeather(event,AVERAGE_BERTHING_TIME, weatherCompanyEndpoint, function(etb){
+					res.send(etb.etb + "; a delay is estimated because of a windspeed " + etb.windSpeed + " MPH");
+				});
 			} else { // Calculate ETB without taking weather condition
 				var etb = etbCalculator.calculateETB(event, AVERAGE_BERTHING_TIME);
 				res.send(etb);
